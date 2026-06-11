@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Вход - Сводка новостей{% endblock %}
+{% block content %}
+  <section class="auth-shell">
+    <div class="auth-copy">
+      <h1>Вход</h1>
+      <p>Откройте свою сводку и продолжайте собирать новости из выбранных источников.</p>
+    </div>
+    <form class="auth" method="post">
+      <label>Email<input type="email" name="email" required></label>
+      <label>Пароль<input type="password" name="password" required></label>
+      <button type="submit">Войти</button>
+    </form>
+  </section>
+{% endblock %}

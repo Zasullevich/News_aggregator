@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Лента - Сводка новостей{% endblock %}
+{% block content %}
+  <div class="news-layout no-left-panel">
+    <section class="content-column">
+      <div class="section-heading">
+        <div>
+          <h1>Лента</h1>
+        </div>
+        <form class="inline-filter" method="get">
+          <select name="source_id" onchange="this.form.submit()">
+            <option value="">Все источники</option>
+            {% for source in sources %}
+              <option value="{{ source.id }}" {% if selected_source_id == source.id %}selected{% endif %}>{{ source.title }}</option>
+            {% endfor %}
+          </select>
+        </form>
+      </div>
+
+      {% if items %}
+        <section class="feed uniform-feed">
+          {% for item in items %}
+            <details class="news-card">
+              <summary>
+                <div class="meta">
+                  <span>{{ item.source.title }}</span>
+                  <time>{{ (item.published_at or item.collected_at).strftime("%d.%m.%Y %H:%M") }}</time>
+                </div>
+                <h2>{{ item.title }}</h2>
+              </summary>
+              <div class="news-body">
+                <p>{{ item.text }}</p>
+                <a class="source-link" href="{{ item.original_url }}" target="_blank" rel="noreferrer">Открыть источник</a>
+              </div>
+            </details>
+          {% endfor %}
+        </section>
+      {% else %}
+        <section class="empty">
+          <h1>Пока нет новостей</h1>
+          <p>Добавьте источник и запустите первое обновление.</p>
+          <a class="button" href="{{ url_for('main.sources') }}">К источникам</a>
+        </section>
+      {% endif %}
+    </section>
+
+    <aside class="sidebar info-panel">
+      <section>
+        <h2>Обзор</h2>
+        <div class="stat-line">
+          <span>Новостей</span>
+          <strong>{{ items|length }}</strong>
+        </div>
+        <div class="stat-line">
+          <span>Источников</span>
+          <strong>{{ sources|length }}</strong>
+        </div>
+      </section>
+      <section>
+        <h2>Фильтр</h2>
+        <a class="mini-link {% if not selected_source_id %}active{% endif %}" href="{{ url_for('main.index') }}">Все источники</a>
+        {% for source in sources %}
+          <a class="mini-link {% if selected_source_id == source.id %}active{% endif %}" href="{{ url_for('main.index', source_id=source.id) }}">{{ source.title }}</a>
+        {% endfor %}
+      </section>
+    </aside>
+  </div>
+{% endblock %}

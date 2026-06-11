@@ -1,0 +1,6 @@
+__pycache__/
+.pytest_cache/
+instance/
+server.out
+server.err
+*.pyc

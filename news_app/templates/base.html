@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Сводка новостей{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="{{ url_for('main.index') }}">
+          <span>Сводка новостей</span>
+        </a>
+
+        <nav class="primary-nav" aria-label="Основная навигация">
+          {% if current_user.is_authenticated %}
+            <a class="{% if request.endpoint == 'main.index' %}active{% endif %}" href="{{ url_for('main.index') }}">Лента</a>
+            <a class="{% if request.endpoint == 'main.sources' %}active{% endif %}" href="{{ url_for('main.sources') }}">Источники</a>
+          {% else %}
+            <a class="{% if request.endpoint == 'main.login' %}active{% endif %}" href="{{ url_for('main.login') }}">Вход</a>
+            <a class="{% if request.endpoint == 'main.register' %}active{% endif %}" href="{{ url_for('main.register') }}">Регистрация</a>
+          {% endif %}
+        </nav>
+
+        <div class="topbar-actions">
+          {% if current_user.is_authenticated %}
+            <span class="user-pill">{{ current_user.email }}</span>
+            <form action="{{ url_for('main.logout') }}" method="post">
+              <button class="button ghost" type="submit">Выйти</button>
+            </form>
+          {% else %}
+            <a class="button ghost" href="{{ url_for('main.login') }}">Войти</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="messages">
+            {% for category, message in messages %}
+              <div class="message {{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

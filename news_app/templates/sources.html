@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Источники - Сводка новостей{% endblock %}
+{% block content %}
+  <div class="sources-layout no-left-panel">
+    <section class="content-column">
+      <div class="section-heading">
+        <div>
+          <h1>Источники</h1>
+        </div>
+      </div>
+
+      <section class="source-form">
+        <form action="{{ url_for('main.add_source') }}" method="post">
+          <input type="url" name="url" placeholder="https://example.com/rss.xml или https://t.me/s/channel_name" required>
+          <button type="submit">Добавить</button>
+        </form>
+      </section>
+
+      <section class="sources-list">
+        {% for source in sources %}
+          <article class="source-row">
+            <div>
+              <strong>{{ source.title }}</strong>
+              <span>{{ source.source_type }}</span>
+              <a href="{{ source.url }}" target="_blank" rel="noreferrer">{{ source.url }}</a>
+            </div>
+            <div class="row-actions">
+              <form action="{{ url_for('main.refresh_source_route', source_id=source.id) }}" method="post">
+                <button type="submit">Обновить</button>
+              </form>
+              <form action="{{ url_for('main.delete_source', source_id=source.id) }}" method="post">
+                <button class="button danger" type="submit">Удалить</button>
+              </form>
+            </div>
+          </article>
+        {% else %}
+          <div class="empty compact">
+            <h1>Источников пока нет</h1>
+          </div>
+        {% endfor %}
+      </section>
+    </section>
+
+    <aside class="sidebar info-panel">
+      <section>
+        <h2>Типы</h2>
+        <p class="muted">RSS/Atom, открытые Telegram-каналы и обычные страницы сайтов.</p>
+      </section>
+    </aside>
+  </div>
+{% endblock %}

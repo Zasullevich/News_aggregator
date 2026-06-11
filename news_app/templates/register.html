@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Регистрация - Сводка новостей{% endblock %}
+{% block content %}
+  <section class="auth-shell">
+    <div class="auth-copy">
+      <h1>Регистрация</h1>
+      <p>Создайте аккаунт, чтобы иметь персональную ленту.</p>
+    </div>
+    <form class="auth" method="post">
+      <label>Email<input type="email" name="email" required></label>
+      <label>Пароль<input type="password" name="password" minlength="8" required></label>
+      <label>Повторите пароль<input type="password" name="password_confirm" minlength="8" required></label>
+      <button type="submit">Создать аккаунт</button>
+    </form>
+  </section>
+{% endblock %}
