@@ -1,28 +1,24 @@
-# News MVP
+# News Aggregator
 
-Flask MVP для персональной сводки новостей. Пользователь добавляет RSS/Atom, обычные сайты или открытые Telegram-каналы вида `https://t.me/s/channel_name`; приложение сохраняет новые материалы в его ленту.
+Сайт агрегатор сбора новостей с указанных пользователем ссылок. Пользователь добавляет RSS/Atom, обычные сайты или открытые Telegram-каналы вида https://t.me/s/channel_name и сохраняет в своей ленте.
 
 ## Запуск
 
-```powershell
 python -m pip install -r requirements.txt
 python run.py
-```
 
-После запуска откройте `http://127.0.0.1:5000`.
+После запуска откройте http://127.0.0.1:5000.
 
 ## Тесты
 
-```powershell
 python -m pytest -q
-```
 
-## Что внутри
+## Набор инструментов
 
-- Flask routes: регистрация, вход, лента, источники, ручное обновление.
-- SQLAlchemy models: `User`, `Source`, `NewsItem`.
-- SQLite по умолчанию: `instance/news_mvp.sqlite`.
-- Async parsing через `httpx`.
-- `feedparser` для RSS/Atom.
-- Scrapy `TextResponse`/CSS selectors для Telegram `t.me/s` и HTML-страниц.
+- Flask
+- SQLAlchemy
+- SQLite
+- Async через httpx.
+- feedparser для RSS/Atom.
+- Scrapy
 - APScheduler обновляет активные источники каждые 15 минут.
